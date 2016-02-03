@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app>
+<head>
+    <title>Angular Practice</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
+    <script>
+        function NameCtrl($scope){
+            $scope.firstName = 'Frank';
+            $scope.lastName = 'Veloz';
+        }
+    </script> 
+</head>
+<body ng-controller="NameCtrl">
+    
+    Name: <input ng-model="firstName" type="text" >
+    <br>
+    Last Name: <input ng-model="lastName" type="text" >
+    <br>
+   
+    Hello {{firstName}} {{lastName}}!
+    
+    <script>
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <title>Angular Practice</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+
+</head>
+<body>
+    
+    Name: <input id="textinput" type="text" >
+    <br>
+    Hello <span id="nameDiv"></span>!
+    
+    <script>
+        
+        // Model
+        var model = new Backbone.Model({
+            name: ''    
+        });
+        
+        // View
+        model.on('change:name', function(){
+            $('#nameDiv').html(model.get('name'));
+        });
+        
+        // Controller
+        $('#textinput').on('keyup', function(){
+            model.set('name', $('#textinput').val());
+        });
+        
+    </script>
+</body>
+</html>

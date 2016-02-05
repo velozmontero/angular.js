@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="nameApp">
+<head>
+    <title>Angular Practice</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script>
+        var nameApp = angular.module('nameApp', []);
+        nameApp.controller('NameCtrl', 
+        function ($scope){
+            $scope.names = ['Victor', 'Aaron', 'Randy']; 
+            
+            $scope.addName = function(){
+                var name= $scope.enteredName;
+                var i = $scope.names.indexOf(name);
+                if (i == -1){
+                    $scope.names.push(name);
+                    $scope.enteredName = ''; 
+                }
+                else{
+                    alert("that name exists");
+                }
+            };
+            
+            $scope.removeName= function(name){
+                var i = $scope.names.indexOf(name);
+                $scope.names.splice(i, 1);
+            }
+            
+        });
+    </script> 
+</head>
+<body ng-controller="NameCtrl">
+    
+    <ul>
+        <li ng-repeat="name in names ">{{name}} <a href="" ng-click="removeName(name)">remove</a></li>
+    </ul>
+   
+    <form ng-submit="addName()">
+        <input type="text" ng-model="enteredName">
+        <input type="submit" value="add">
+    </form>
+    
+    <script>
+        
+    </script>
+</body>
+</html>

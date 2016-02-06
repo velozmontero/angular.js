@@ -1,0 +1,31 @@
+<!-- Adding country flag images. -->
+<!-- Watch for error loading flag at load time -->
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>            
+    <script>
+      var countryApp = angular.module('countryApp', []);
+      countryApp.controller('CountryCtrl', function ($scope, $http){
+        $http.get('countriesF.json').success(function(data) {
+          $scope.countries = data;
+        });
+      });
+    </script>
+  </head>
+  <body ng-controller="CountryCtrl">
+    <table>
+      <tr>
+        <th>Country</th>
+        <th>Population</th>
+        <th>Flag</th>
+      </tr>
+      <tr ng-repeat="country in countries">
+        <td>{{country.name}}</td>
+        <td>{{country.population}}</td>
+        <td><img src="{{country.flagURL}}" width="100"></td>
+      </tr>
+    </table>
+  </body>
+</html>

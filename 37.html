@@ -1,0 +1,80 @@
+<!-- https://docs.angularjs.org/tutorial/step_07 -->
+<!-- https://docs.angularjs.org/api/ngRoute/provider/$routeProvider -->
+<!-- What has changed:
+
+- An additional script tag has been added for angular-route, which defines the ngRoute module.
+- The ngRoute module was added as a dependency to countryApp, which provides the $routeProvider API.
+- The config() call sets up the routes using inline strings as templates.
+- A placeholder CountryDetailCtrl was added.
+- A div with the ng-view directive was added to the body. This is where the route provider injects content rendered from the template associated with the current route. -->
+
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateURL: 'country-list.html',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {
+            templateURL: 'country-detail.html',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      });
+      
+      countryApp.factory('countries', function($http){
+          
+          var cachedData;
+          
+          function getData(callback){
+              if(cachedData){
+                  callback(cachedData);
+              }
+              else{
+                  $http.get('countriesGDP.json').success(function(data){
+                      cachedData= data;
+                      callback(data);
+                  });
+              }
+          }
+          
+          return{
+              list: getData,
+              find: function(name, callback){
+                        $http.get('countriesGDP.json').success(function(data){
+                            var country= data.filter(function(entry){
+                            return entry.name === $scope.name;
+                        }[0]);  
+                        callback(country);    
+                    });
+              }
+          };
+      });    
+
+      countryApp.controller('CountryListCtrl', function ($scope, $http){
+            countries.list(function(countries){
+                $scope.countries= countries;
+            });       
+      });
+
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, $http){
+          countries.find($routeParams.countryName, function(){
+                $scope.country= country;   
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div ng-view></div>
+  </body>
+</html>

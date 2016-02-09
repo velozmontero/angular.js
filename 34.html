@@ -1,0 +1,49 @@
+<!-- https://docs.angularjs.org/tutorial/step_07 -->
+<!-- https://docs.angularjs.org/api/ngRoute/provider/$routeProvider -->
+<!-- What has changed:
+
+- An additional script tag has been added for angular-route, which defines the ngRoute module.
+- The ngRoute module was added as a dependency to countryApp, which provides the $routeProvider API.
+- The config() call sets up the routes using inline strings as templates.
+- A placeholder CountryDetailCtrl was added.
+- A div with the ng-view directive was added to the body. This is where the route provider injects content rendered from the template associated with the current route. -->
+
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateURL: 'country-list.html',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {
+            template: '<h1>TODO create country detail view</h1>',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      });
+
+      countryApp.controller('CountryListCtrl', function ($scope, $http){
+        $http.get('countriesGDP.json').success(function(data) {
+          $scope.countries = data;
+        });
+      });
+
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams){
+        console.log($routeParams);
+      });
+    </script>
+  </head>
+  <body>
+    <div ng-view></div>
+  </body>
+</html>
